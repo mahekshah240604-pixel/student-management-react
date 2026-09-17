@@ -3,6 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
+const API_URL =
+    "https://student-management-api-production-183e.up.railway.app/api/students";
+
 function StudentDetail() {
     const { slug } = useParams();
 
@@ -14,11 +17,12 @@ function StudentDetail() {
         const fetchStudent = async () => {
             try {
                 const response = await axios.get(
-                    `http://127.0.0.1:8000/api/students/slug/${slug}`
+                    `${API_URL}/slug/${slug}`
                 );
 
                 setStudent(response.data.data);
             } catch (err) {
+                console.error("Error fetching student:", err);
                 setError("Student not found.");
             } finally {
                 setLoading(false);
