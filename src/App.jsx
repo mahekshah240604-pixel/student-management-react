@@ -57,6 +57,14 @@ function App() {
 
     return () => clearTimeout(delaySearch);
   }, [search]);
+  useEffect(() => {
+  if (editingId) {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+}, [editingId]);
 
   // Handle input
   const handleChange = (e) => {
@@ -134,23 +142,30 @@ function App() {
     }
   };
 
-  // Edit student
-  const handleEdit = (student) => {
-    setEditingId(student.id);
+// Edit student
+const handleEdit = (student) => {
+  setEditingId(student.id);
 
-    setFormData({
-      name: student.name,
-      email: student.email,
-      mobile: student.mobile,
-      course: student.course,
-      class: student.class,
-      address: student.address,
+  setFormData({
+    name: student.name,
+    email: student.email,
+    mobile: student.mobile,
+    course: student.course,
+    class: student.class,
+    address: student.address,
+  });
+
+  setImage(null);
+  setPreview(student.image_url);
+
+  // Scroll to student form
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
-
-    setImage(null);
-    setPreview(student.image_url);
-  };
-
+  }, 200);
+};
   // Delete student
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this student?")) {
@@ -234,7 +249,7 @@ function App() {
       <h1>Student Management System</h1>
 
       {/* Student Form */}
-      <div className="form-card">
+      <div className="form-card" id="student-form">
 
         <h2>
           {editingId ? "Update Student" : "Add Student"}
